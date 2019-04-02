@@ -1,5 +1,4 @@
 ﻿/*
-	dziala
 	Program Sortujący
 	Zaimplementowane sortowania:
 
