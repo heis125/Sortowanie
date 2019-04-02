@@ -1,4 +1,5 @@
 ﻿/*
+cos nie dziala znowu
 	Program Sortujący
 	Zaimplementowane sortowania:
 
