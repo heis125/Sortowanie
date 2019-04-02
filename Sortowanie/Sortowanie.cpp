@@ -1,4 +1,5 @@
 ﻿/*
+	Cieakwe czy teraz dziala
 	Program Sortujący
 	Zaimplementowane sortowania:
 
