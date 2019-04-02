@@ -1,5 +1,5 @@
 ﻿/*
-cos nie dziala znowu
+	CHyba już działa 
 	Program Sortujący
 	Zaimplementowane sortowania:
 
