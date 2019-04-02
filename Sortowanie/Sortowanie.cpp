@@ -1,5 +1,4 @@
 ﻿/*
-	CHyba już działa 
 	Program Sortujący
 	Zaimplementowane sortowania:
 
