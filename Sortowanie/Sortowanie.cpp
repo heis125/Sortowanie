@@ -1,5 +1,5 @@
 ﻿/*
-	Cieakwe czy teraz dziala
+	dziala
 	Program Sortujący
 	Zaimplementowane sortowania:
 
