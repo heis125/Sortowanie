@@ -63,11 +63,31 @@ bool czy_posortowane_rosnaco(T tab[], int koniec)
 	return true;
 }
 
+template<typename T>
+void wyswietlanie(T tab, int wielkosc, int ilosc)
+{
+	for (int i = 0; i < ilosc; i++)
+	{
+		cout << endl << endl;
+		for (int j = 0; j < wielkosc; j++)
+		{
+			cout << tab[i][j] << " ";
+		}
+	}
 
+}
 
-
-
-
+template<typename T>
+void losuj(T tab, int wielkosc, int ilosc)
+{
+	for (int i = 0; i < ilosc; i++)
+	{
+		for (int j = 0; j < wielkosc; j++)
+		{
+			tab[i][j] = rand() % 25000;
+		}
+	}
+}
 template<typename T>
 void W_sortowanie(T tab[],int wielkosc)
 {
@@ -185,12 +205,11 @@ void S_sortowanie(T tab[], int poczatek, int koniec)
 
 
 template<typename T>
-int Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
+void Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
 {
-	//warunek sprawdzajacy czy tablica jest jednoelementowa
-
 	int i = poczatek, j = koniec, temp;
-	if (koniec <= poczatek) return i;
+	//warunek sprawdzajacy czy tablica jest jednoelementowa
+	if (koniec <= poczatek) return ;
 	int pivot = tab[(poczatek + koniec) / 2]; //wybieranie punktu odniesienia
 
 	do
@@ -227,13 +246,14 @@ int Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
 
 		}
 
-	} while (i <= j);
+	} while (i <= j); //koniec pętli jeśli liczniki się minęły 
 
+	// rekurencja 
 	if (j > poczatek)
 		Q_sortowanie(tab, poczatek, j, kierunek);
 	if (i < koniec)
 		Q_sortowanie(tab, i, koniec, kierunek); 
-	return i;
+	return;
 }
 
 
@@ -245,7 +265,7 @@ int Q_intro(T tab[], int poczatek, int koniec)
 	//warunek sprawdzajacy czy tablica jest jednoelementowa
 
 	int i = poczatek, j = koniec, temp;
-	if (koniec <= poczatek) return i;
+	if (koniec <= poczatek) return i; // zwracanie indeksu w którym tablica ma zostać "podzielona"
 	int pivot = tab[(poczatek + koniec) / 2]; //wybieranie punktu odniesienia
 
 	do
@@ -269,7 +289,7 @@ int Q_intro(T tab[], int poczatek, int koniec)
 		}
 
 	} while (i <= j);
-	return i;
+	return i; // zwracanie indeksu w którym tablica ma zostać "podzielona"
 }
 
 
@@ -278,15 +298,21 @@ template<typename T>
 void IntroSort(T tab, int wielkosc , int M)
 {
 	int i;
-	if (M <= 0)
+	if (wielkosc < 16)
 	{
-		K_sortowanie(tab, wielkosc-1);
+		W_sortowanie(tab, wielkosc);
+		return;
+	} 
+	// sortowanie tablicy przy użyciu sortowania przez kopcowanie w sytuacji osiągnięcia maksymalnej głebokości rekurencji 
+	if (M <= 0) 
+	{
+		K_sortowanie(tab, wielkosc);
 		return;
 	}
-	i = Q_intro(tab, 0, wielkosc-1);
-	if (i > 16)
-		IntroSort(tab, i, M - 1);
-	if (wielkosc - 1 - i > 16)
+	
+	i = Q_intro(tab, 0, wielkosc-1); // indeks podziału tablicy 
+	// rekurencja zliczajaca głębokość 
+		IntroSort(tab, i, M - 1); 
 		IntroSort(tab + i + 1 , wielkosc - i -1, M - 1);
 }
 
@@ -294,8 +320,7 @@ template<typename T>
 void I_sortowanie(T tab[], int wielkosc)
 {
 	int glebokosc = 2 * (int)log(wielkosc);
-	IntroSort(tab,wielkosc, glebokosc);
-	W_sortowanie(tab, wielkosc);
+	IntroSort(tab,wielkosc, glebokosc); 
 }
 
 
@@ -309,12 +334,12 @@ int main()
 	double czas_trwania;
 
 	// zmienne określające wielkość tablic i ilość tablic do posortowania
-	int wielkosc = 1000000 , ilosc=100;
+	int wielkosc = 1000000 , ilosc=1;
 
 	//tworzenie tablicy pomocniczej 
 	pom = new int[wielkosc];
 
-	//tworzenie zadanej ilości tablic o zadanej wielkości
+	//tworzenie określonej ilości tablic o okreśłonej wielkości
 	int** tab = new int *[ilosc];
 		for (int i = 0; i < ilosc; i++)
 		{
@@ -322,20 +347,16 @@ int main()
 		}
 
 		// wpisywanie do tablic losowych wartości 
-		for (int i = 0; i < ilosc; i++)
-		{
-			for (int j = 0; j < wielkosc; j++)
-			{
-				tab[i][j] = rand() % 25000;
-			}
-		}
+		losuj(tab, wielkosc, ilosc);
+
+
 		//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, wielkosc - 1, 1); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
 
 		start = clock(); // włączenie odliczania czasu
 
 		for (int i = 0; i < ilosc; i++)
 		{
-			//W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
+			W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
 			
 
 			//K_sortowanie(tab[i], wielkosc); // algorytm sortowania przez kopcowanie
@@ -348,7 +369,7 @@ int main()
 			//Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
 
 
-			I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
+			//I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
 
 
 			czy_posortowane_rosnaco(tab[i], wielkosc);
@@ -360,18 +381,14 @@ int main()
 		cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
 		
 		// wyświetlanie tablic 
-		/*for (int i = 0; i < ilosc; i++)
-		{
-			cout << endl << endl;
-			for (int j = 0; j < wielkosc; j++)
-			{
-				cout << tab[i][j] << " ";
-			}
-		}    //*/
+		//wyswietlanie(tab, wielkosc, ilosc);
+
 		
 
 		// usuwanie tablic
 		delete pom;
 		delete tab;
+		// Pauzowanie systemu potrzebne przy uruchamianiu programu przez plik wykonawczy
+		cout << endl; 
 		system("Pause");
 }
