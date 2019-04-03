@@ -1,5 +1,5 @@
 # Sortowanie
-Projekt zawierajacy program w c++ sortujacy tablice 
+#Projekt zawierajacy program w c++ sortujacy tablice 
 	Zaimplementowane sortowania:
 
 		- sortowanie przez wstawianie (insertion sort) w programie W_sortowanie
