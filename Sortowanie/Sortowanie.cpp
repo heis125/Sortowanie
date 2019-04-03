@@ -29,16 +29,12 @@ bool czy_posortowane_malejaco(T tab[], int koniec)
 {
 	for (int i = 0; i < koniec; i++)
 	{
-		if (tab[i] >= tab[i + 1])
-		{
-			cout << "posortowana" << endl;
-			return false;
-		}
-		else
+		if (tab[i] <= tab[i + 1])
 		{
 			cout << "nie posortowana" << endl;
-			return true;
+			return false;
 		}
+	
 	}
 	cout << "posortowana" << endl;
 	return true;
@@ -48,21 +44,29 @@ bool czy_posortowane_rosnaco(T tab[], int koniec)
 {
 	for (int i = 0; i < koniec; i++)
 	{
-		if (tab[i] <= tab[i + 1])
+		if (tab[i] > tab[i + 1])
 		{
-			cout << "posortowana" << endl;
+			cout << "nie posortowana" << endl;
 			return false;
 		}
-		else
-		{
-			cout << " nie posortowana" << endl;
-			return true;
-		}
+
 	}
 	cout << "posortowana" << endl;
 	return true;
 }
+template<typename T>
+bool czy_posortowane(T tab[], int koniec)
+{
+	for (int i = 0; i < koniec; i++)
+	{
+		if (tab[i] > tab[i + 1])
+		{
+			return false;
+		}
 
+	}
+	return true;
+}
 template<typename T>
 void wyswietlanie(T tab, int wielkosc, int ilosc)
 {
@@ -249,12 +253,15 @@ void Q_sortowanie(T tab[], int poczatek, int koniec, int kierunek)
 	} while (i <= j); //koniec pętli jeśli liczniki się minęły 
 
 	// rekurencja 
-	if (j > poczatek)
+	if (j> poczatek)
 		Q_sortowanie(tab, poczatek, j, kierunek);
 	if (i < koniec)
 		Q_sortowanie(tab, i, koniec, kierunek);
 	return;
 }
+
+
+
 
 
 template<typename T>
@@ -319,10 +326,8 @@ void I_sortowanie(T tab[], int wielkosc)
 {
 	int glebokosc = 2 * (int)log(wielkosc); // maksymalna głębokość rekurencji
 	IntroSort(tab, wielkosc, glebokosc);
+	W_sortowanie(tab, wielkosc); 
 }
-
-
-
 
 
 int main()
@@ -330,9 +335,10 @@ int main()
 	// zmienne potrzebne do zmierzenia czasu wykonywania się algorytmu
 	clock_t start;
 	double czas_trwania;
+	
 
 	// zmienne określające wielkość tablic i ilość tablic do posortowania
-	int wielkosc = 100, ilosc = 1;
+	int wielkosc = 10000, ilosc = 100;
 
 	//tworzenie tablicy pomocniczej 
 	pom = new int[wielkosc];
@@ -348,7 +354,7 @@ int main()
 	losuj(tab, wielkosc, ilosc);
 
 
-	//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, wielkosc - 1, 1); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
+	for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, (int)((wielkosc - 1)), 0); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
 
 	start = clock(); // włączenie odliczania czasu
 
@@ -364,21 +370,22 @@ int main()
 
 
 		// jesli ostatni parametr funkcji Q_sortowanie = 0 sortuje malejąco w pozostałych przypadkach rosnąco
-		Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
+		//Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
 
-		//I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
+		I_sortowanie(tab[i],wielkosc); // algorytm sortowania introspektywnego
 
 
-		czy_posortowane_rosnaco(tab[i], wielkosc);
-		//czy_posortowane_malejaco(tab[i], wielkosc - 1);
+		//czy_posortowane_rosnaco(tab[i], wielkosc-1);
+		//czy_posortowane_malejaco(tab[i], wielkosc);
 
 
 	}
-	czas_trwania = (std::clock() - start) / (double)CLOCKS_PER_SEC; // przeliczenia cykli zegara na sekundy
-	cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
+
+	czas_trwania = (clock() - start) / (double)CLOCKS_PER_SEC; // przeliczenia cykli zegara na sekundy
+	cout << "Czas sortowania w sekundach " << czas_trwania << endl; // wyświetlenie ile czasu sortował algorytm
 
 	// wyświetlanie tablic 
-	wyswietlanie(tab, wielkosc, ilosc);
+	//wyswietlanie(tab, wielkosc, ilosc);
 
 
 
@@ -387,5 +394,5 @@ int main()
 	delete tab;
 	// Pauzowanie systemu potrzebne przy uruchamianiu programu przez plik wykonawczy
 	cout << endl;
-	system("Pause");
+	//system("Pause");
 }
