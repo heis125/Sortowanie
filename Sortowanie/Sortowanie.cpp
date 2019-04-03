@@ -257,8 +257,6 @@ void Q_sortowanie(T tab[], int poczatek, int koniec, int kierunek)
 }
 
 
-
-
 template<typename T>
 int Q_intro(T tab[], int poczatek, int koniec)
 {
@@ -319,7 +317,7 @@ void IntroSort(T tab, int wielkosc, int M)
 template<typename T>
 void I_sortowanie(T tab[], int wielkosc)
 {
-	int glebokosc = 2 * (int)log(wielkosc);
+	int glebokosc = 2 * (int)log(wielkosc); // maksymalna głębokość rekurencji
 	IntroSort(tab, wielkosc, glebokosc);
 }
 
@@ -334,7 +332,7 @@ int main()
 	double czas_trwania;
 
 	// zmienne określające wielkość tablic i ilość tablic do posortowania
-	int wielkosc = 1000000, ilosc = 1;
+	int wielkosc = 100, ilosc = 1;
 
 	//tworzenie tablicy pomocniczej 
 	pom = new int[wielkosc];
@@ -356,7 +354,7 @@ int main()
 
 	for (int i = 0; i < ilosc; i++)
 	{
-		W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
+		//W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
 
 
 		//K_sortowanie(tab[i], wielkosc); // algorytm sortowania przez kopcowanie
@@ -366,8 +364,7 @@ int main()
 
 
 		// jesli ostatni parametr funkcji Q_sortowanie = 0 sortuje malejąco w pozostałych przypadkach rosnąco
-		//Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
-
+		Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
 
 		//I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
 
@@ -381,7 +378,7 @@ int main()
 	cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
 
 	// wyświetlanie tablic 
-	//wyswietlanie(tab, wielkosc, ilosc);
+	wyswietlanie(tab, wielkosc, ilosc);
 
 
 
