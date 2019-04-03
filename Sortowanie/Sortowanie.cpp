@@ -25,16 +25,16 @@ using namespace std;
 int *pom; //wskaźnik globalny używany do stworzenia tablicy pomocniczej
 
 template<typename T>
-bool czy_posortowane_malejaco(T tab[], int koniec) 
+bool czy_posortowane_malejaco(T tab[], int koniec)
 {
-	for (int i = 0; i < koniec; i++) 
+	for (int i = 0; i < koniec; i++)
 	{
-		if (tab[i] >= tab[i + 1]) 
+		if (tab[i] >= tab[i + 1])
 		{
 			cout << "posortowana" << endl;
 			return false;
 		}
-		else 
+		else
 		{
 			cout << "nie posortowana" << endl;
 			return true;
@@ -44,7 +44,7 @@ bool czy_posortowane_malejaco(T tab[], int koniec)
 	return true;
 }
 template<typename T>
-bool czy_posortowane_rosnaco(T tab[], int koniec) 
+bool czy_posortowane_rosnaco(T tab[], int koniec)
 {
 	for (int i = 0; i < koniec; i++)
 	{
@@ -89,19 +89,19 @@ void losuj(T tab, int wielkosc, int ilosc)
 	}
 }
 template<typename T>
-void W_sortowanie(T tab[],int wielkosc)
+void W_sortowanie(T tab[], int wielkosc)
 {
-	int temp , j;
+	int temp, j;
 	for (int i = 1; i < wielkosc; i++)
 	{
 		//przechowywanie wartości 
-		temp = tab[i]; 
+		temp = tab[i];
 		j = i - 1;
 
 		//szukanie miejsca dla elementu
 		while (j >= 0 && tab[j] > temp)
 		{
-			tab[j + 1] = tab[j]; 
+			tab[j + 1] = tab[j];
 			--j;
 		}
 		tab[j + 1] = temp; //wstawienie elementu w odpowiednie miejsce
@@ -130,7 +130,7 @@ void kopcowanie(T tab[], int wielkosc, int i) // funkcja ustawiajaca prawidłowo
 	//jeśli najwiekszy nie jest korzeniem 
 	if (najwiekszy != i)
 	{
-	
+
 		temp = tab[najwiekszy];
 		tab[najwiekszy] = tab[i];
 		tab[i] = temp;
@@ -146,41 +146,41 @@ void K_sortowanie(T tab[], int wielkosc)
 {
 	int temp;
 	// tworzenie kopca
-	for (int i = wielkosc / 2-1; i >= 0; i--)
+	for (int i = wielkosc / 2 - 1; i >= 0; i--)
 	{
 		kopcowanie(tab, wielkosc, i);
 	}
 	// usuwanie najwiekszego elementu kopca i ustawianie go na końcu tablicy głównej
-	for (int i = wielkosc-1 ; i >= 0; i--)
+	for (int i = wielkosc - 1; i >= 0; i--)
 	{
-		
-			temp = tab[i];
-			tab[i] = tab[0];
-			tab[0] = temp;
 
-			//naprawianie kopca
-			kopcowanie(tab, i, 0);
-		
+		temp = tab[i];
+		tab[i] = tab[0];
+		tab[0] = temp;
+
+		//naprawianie kopca
+		kopcowanie(tab, i, 0);
+
 	}
 }
 
 
 template<typename T>
-void scalanie(T tab[], int poczatek, int srodek, int koniec) 
+void scalanie(T tab[], int poczatek, int srodek, int koniec)
 {
-		int i, j;
-		//zapisanie polowy glownej tablicy w tablicy pomocniczej
-		for (i = srodek + 1; i > poczatek; i--)
-			pom[i - 1] = tab[i - 1];
-		//zapisanie drugiej polowy glownej tablicy w tablicy pomocniczej
-		for (j = srodek; j < koniec; j++)
-			pom[koniec + srodek - j] = tab[j + 1];
-		//scalanie tablic pomocniczych i zapisanie ich w glowej tablicy w odpowiedniej kolejności 
-		for (int k = poczatek; k <= koniec; k++)
-			if (pom[j] < pom[i])
-				tab[k] = pom[j--];
-			else
-				tab[k] = pom[i++];
+	int i, j;
+	//zapisanie polowy glownej tablicy w tablicy pomocniczej
+	for (i = srodek + 1; i > poczatek; i--)
+		pom[i - 1] = tab[i - 1];
+	//zapisanie drugiej polowy glownej tablicy w tablicy pomocniczej
+	for (j = srodek; j < koniec; j++)
+		pom[koniec + srodek - j] = tab[j + 1];
+	//scalanie tablic pomocniczych i zapisanie ich w glowej tablicy w odpowiedniej kolejności 
+	for (int k = poczatek; k <= koniec; k++)
+		if (pom[j] < pom[i])
+			tab[k] = pom[j--];
+		else
+			tab[k] = pom[i++];
 }
 
 template<typename T>
@@ -205,11 +205,11 @@ void S_sortowanie(T tab[], int poczatek, int koniec)
 
 
 template<typename T>
-void Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
+void Q_sortowanie(T tab[], int poczatek, int koniec, int kierunek)
 {
 	int i = poczatek, j = koniec, temp;
 	//warunek sprawdzajacy czy tablica jest jednoelementowa
-	if (koniec <= poczatek) return ;
+	if (koniec <= poczatek) return;
 	int pivot = tab[(poczatek + koniec) / 2]; //wybieranie punktu odniesienia
 
 	do
@@ -252,7 +252,7 @@ void Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
 	if (j > poczatek)
 		Q_sortowanie(tab, poczatek, j, kierunek);
 	if (i < koniec)
-		Q_sortowanie(tab, i, koniec, kierunek); 
+		Q_sortowanie(tab, i, koniec, kierunek);
 	return;
 }
 
@@ -273,7 +273,7 @@ int Q_intro(T tab[], int poczatek, int koniec)
 		//szukanie elementu wiekszego od pivot
 		while (pivot > tab[i])
 			i++;
-	
+
 		//szukanie elementu mniejszego od pivot
 		while (pivot < tab[j])
 			j--;
@@ -295,32 +295,32 @@ int Q_intro(T tab[], int poczatek, int koniec)
 
 
 template<typename T>
-void IntroSort(T tab, int wielkosc , int M)
+void IntroSort(T tab, int wielkosc, int M)
 {
 	int i;
 	if (wielkosc < 16)
 	{
 		W_sortowanie(tab, wielkosc);
 		return;
-	} 
+	}
 	// sortowanie tablicy przy użyciu sortowania przez kopcowanie w sytuacji osiągnięcia maksymalnej głebokości rekurencji 
-	if (M <= 0) 
+	if (M <= 0)
 	{
 		K_sortowanie(tab, wielkosc);
 		return;
 	}
-	
-	i = Q_intro(tab, 0, wielkosc-1); // indeks podziału tablicy 
+
+	i = Q_intro(tab, 0, wielkosc - 1); // indeks podziału tablicy 
 	// rekurencja zliczajaca głębokość 
-		IntroSort(tab, i, M - 1); 
-		IntroSort(tab + i + 1 , wielkosc - i -1, M - 1);
+	IntroSort(tab, i, M - 1);
+	IntroSort(tab + i + 1, wielkosc - i - 1, M - 1);
 }
 
 template<typename T>
 void I_sortowanie(T tab[], int wielkosc)
 {
 	int glebokosc = 2 * (int)log(wielkosc);
-	IntroSort(tab,wielkosc, glebokosc); 
+	IntroSort(tab, wielkosc, glebokosc);
 }
 
 
@@ -334,61 +334,61 @@ int main()
 	double czas_trwania;
 
 	// zmienne określające wielkość tablic i ilość tablic do posortowania
-	int wielkosc = 1000000 , ilosc=1;
+	int wielkosc = 1000000, ilosc = 1;
 
 	//tworzenie tablicy pomocniczej 
 	pom = new int[wielkosc];
 
 	//tworzenie określonej ilości tablic o okreśłonej wielkości
 	int** tab = new int *[ilosc];
-		for (int i = 0; i < ilosc; i++)
-		{
-			tab[i] = new int[wielkosc];
-		}
+	for (int i = 0; i < ilosc; i++)
+	{
+		tab[i] = new int[wielkosc];
+	}
 
-		// wpisywanie do tablic losowych wartości 
-		losuj(tab, wielkosc, ilosc);
-
-
-		//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, wielkosc - 1, 1); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
-
-		start = clock(); // włączenie odliczania czasu
-
-		for (int i = 0; i < ilosc; i++)
-		{
-			W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
-			
-
-			//K_sortowanie(tab[i], wielkosc); // algorytm sortowania przez kopcowanie
+	// wpisywanie do tablic losowych wartości 
+	losuj(tab, wielkosc, ilosc);
 
 
-			//S_sortowanie(tab[i], 0, wielkosc-1);  // algorytm sortowania przez scalanie
-			
-			
-			// jesli ostatni parametr funkcji Q_sortowanie = 0 sortuje malejąco w pozostałych przypadkach rosnąco
-			//Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
+	//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, wielkosc - 1, 1); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
+
+	start = clock(); // włączenie odliczania czasu
+
+	for (int i = 0; i < ilosc; i++)
+	{
+		W_sortowanie(tab[i], wielkosc); // algorytm sortowania przez wstawianie
 
 
-			//I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
+		//K_sortowanie(tab[i], wielkosc); // algorytm sortowania przez kopcowanie
 
 
-			czy_posortowane_rosnaco(tab[i], wielkosc);
-			//czy_posortowane_malejaco(tab[i], wielkosc - 1);
-		
+		//S_sortowanie(tab[i], 0, wielkosc-1);  // algorytm sortowania przez scalanie
 
-		}
-		czas_trwania = (std::clock() - start) / (double)CLOCKS_PER_SEC; // przeliczenia cykli zegara na sekundy
-		cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
-		
-		// wyświetlanie tablic 
-		//wyswietlanie(tab, wielkosc, ilosc);
 
-		
+		// jesli ostatni parametr funkcji Q_sortowanie = 0 sortuje malejąco w pozostałych przypadkach rosnąco
+		//Q_sortowanie(tab[i], 0, wielkosc-1,1);  // algorytm szybkiego sortowania (quicksort)
 
-		// usuwanie tablic
-		delete pom;
-		delete tab;
-		// Pauzowanie systemu potrzebne przy uruchamianiu programu przez plik wykonawczy
-		cout << endl; 
-		system("Pause");
+
+		//I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
+
+
+		czy_posortowane_rosnaco(tab[i], wielkosc);
+		//czy_posortowane_malejaco(tab[i], wielkosc - 1);
+
+
+	}
+	czas_trwania = (std::clock() - start) / (double)CLOCKS_PER_SEC; // przeliczenia cykli zegara na sekundy
+	cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
+
+	// wyświetlanie tablic 
+	//wyswietlanie(tab, wielkosc, ilosc);
+
+
+
+	// usuwanie tablic
+	delete pom;
+	delete tab;
+	// Pauzowanie systemu potrzebne przy uruchamianiu programu przez plik wykonawczy
+	cout << endl;
+	system("Pause");
 }
