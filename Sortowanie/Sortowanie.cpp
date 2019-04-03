@@ -22,21 +22,21 @@
 #include <ctime>
 using namespace std;
 
-int *pom; //wskaźnik globalny wykożystany do stworzenia tablicy pomocniczej
+int *pom; //wskaźnik globalny używany do stworzenia tablicy pomocniczej
 
 template<typename T>
 bool czy_posortowane_malejaco(T tab[], int koniec) 
 {
 	for (int i = 0; i < koniec; i++) 
 	{
-		if (tab[i] < tab[i + 1]) 
+		if (tab[i] >= tab[i + 1]) 
 		{
-			cout << "nie posortowana" << endl;
+			cout << "posortowana" << endl;
 			return false;
 		}
 		else 
 		{
-			cout << "posortowana" << endl;
+			cout << "nie posortowana" << endl;
 			return true;
 		}
 	}
@@ -48,14 +48,14 @@ bool czy_posortowane_rosnaco(T tab[], int koniec)
 {
 	for (int i = 0; i < koniec; i++)
 	{
-		if (tab[i] > tab[i + 1])
+		if (tab[i] <= tab[i + 1])
 		{
-			cout << "nie posortowana" << endl;
+			cout << "posortowana" << endl;
 			return false;
 		}
 		else
 		{
-			cout << "posortowana" << endl;
+			cout << " nie posortowana" << endl;
 			return true;
 		}
 	}
@@ -72,7 +72,7 @@ template<typename T>
 void W_sortowanie(T tab[],int wielkosc)
 {
 	int temp , j;
-	for (int i = 1; i < wielkosc-1; i++)
+	for (int i = 1; i < wielkosc; i++)
 	{
 		//przechowywanie wartości 
 		temp = tab[i]; 
@@ -232,33 +232,70 @@ int Q_sortowanie(T tab[], int poczatek, int koniec,int kierunek)
 	if (j > poczatek)
 		Q_sortowanie(tab, poczatek, j, kierunek);
 	if (i < koniec)
-		Q_sortowanie(tab, i, koniec, kierunek);
+		Q_sortowanie(tab, i, koniec, kierunek); 
 	return i;
 }
 
+
+
+
 template<typename T>
-void IntroSort(T tab, int wielkosc, int M)
+int Q_intro(T tab[], int poczatek, int koniec)
+{
+	//warunek sprawdzajacy czy tablica jest jednoelementowa
+
+	int i = poczatek, j = koniec, temp;
+	if (koniec <= poczatek) return i;
+	int pivot = tab[(poczatek + koniec) / 2]; //wybieranie punktu odniesienia
+
+	do
+	{
+		//szukanie elementu wiekszego od pivot
+		while (pivot > tab[i])
+			i++;
+	
+		//szukanie elementu mniejszego od pivot
+		while (pivot < tab[j])
+			j--;
+		//zamienianie miejscami elementów stojacych po zlej stronie jesli liczniki sie nie minęły
+		if (i <= j)
+		{
+			temp = tab[i];
+			tab[i] = tab[j];
+			tab[j] = temp;
+			i++;
+			j--;
+
+		}
+
+	} while (i <= j);
+	return i;
+}
+
+
+
+template<typename T>
+void IntroSort(T tab, int wielkosc , int M)
 {
 	int i;
-	if (wielkosc < 16)
-	{
-		W_sortowanie(tab,wielkosc);
-	}
 	if (M <= 0)
 	{
-		K_sortowanie(tab, wielkosc - 1);
+		K_sortowanie(tab, wielkosc-1);
 		return;
 	}
-	i = Q_sortowanie(tab, 0, wielkosc - 1, 1);
-	IntroSort(tab, i, M - 1);
-	
+	i = Q_intro(tab, 0, wielkosc-1);
+	if (i > 16)
+		IntroSort(tab, i, M - 1);
+	if (wielkosc - 1 - i > 16)
+		IntroSort(tab + i + 1 , wielkosc - i -1, M - 1);
 }
 
 template<typename T>
 void I_sortowanie(T tab[], int wielkosc)
 {
 	int glebokosc = 2 * (int)log(wielkosc);
-	IntroSort(tab, wielkosc, glebokosc);
+	IntroSort(tab,wielkosc, glebokosc);
+	W_sortowanie(tab, wielkosc);
 }
 
 
@@ -289,9 +326,10 @@ int main()
 		{
 			for (int j = 0; j < wielkosc; j++)
 			{
-				tab[i][j] = rand() % 2500 + 1;
+				tab[i][j] = rand() % 25000;
 			}
 		}
+		//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, wielkosc - 1, 1); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
 
 		start = clock(); // włączenie odliczania czasu
 
@@ -313,7 +351,7 @@ int main()
 			I_sortowanie(tab[i], wielkosc); // algorytm sortowania introspektywnego
 
 
-			//czy_posortowane_rosnaco(tab[i], wielkosc - 1);
+			czy_posortowane_rosnaco(tab[i], wielkosc);
 			//czy_posortowane_malejaco(tab[i], wielkosc - 1);
 		
 
@@ -322,14 +360,14 @@ int main()
 		cout << "Czas sortowania " << czas_trwania << "s" << endl; // wyświetlenie ile czasu sortował algorytm
 		
 		// wyświetlanie tablic 
-		/* for (int i = 0; i < ilosc; i++)
+		/*for (int i = 0; i < ilosc; i++)
 		{
 			cout << endl << endl;
 			for (int j = 0; j < wielkosc; j++)
 			{
 				cout << tab[i][j] << " ";
 			}
-		}*/
+		}    //*/
 		
 
 		// usuwanie tablic
