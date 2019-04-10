@@ -303,7 +303,7 @@ template<typename T>
 void IntroSort(T tab, int wielkosc, int M)
 {
 	int i;
-	if (wielkosc < 16)
+	if (wielkosc < 16) 
 	{
 		W_sortowanie(tab, wielkosc);
 		return;
@@ -318,7 +318,7 @@ void IntroSort(T tab, int wielkosc, int M)
 	i = Q_intro(tab, 0, wielkosc - 1); // indeks podziału tablicy 
 	// rekurencja zliczajaca głębokość 
 	IntroSort(tab, i, M - 1);
-	IntroSort(tab + i + 1, wielkosc - i - 1, M - 1);
+	IntroSort(tab + i, wielkosc - i, M - 1);
 }
 
 template<typename T>
@@ -326,7 +326,7 @@ void I_sortowanie(T tab[], int wielkosc)
 {
 	int glebokosc = 2 * (int)log(wielkosc); // maksymalna głębokość rekurencji
 	IntroSort(tab, wielkosc, glebokosc);
-	W_sortowanie(tab, wielkosc); 
+	
 }
 
 
@@ -338,7 +338,7 @@ int main()
 	
 
 	// zmienne określające wielkość tablic i ilość tablic do posortowania
-	int wielkosc = 10000, ilosc = 100;
+	int wielkosc = 1000000, ilosc = 100;
 
 	//tworzenie tablicy pomocniczej 
 	pom = new int[wielkosc];
@@ -354,7 +354,7 @@ int main()
 	losuj(tab, wielkosc, ilosc);
 
 
-	for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, (int)((wielkosc - 1)), 0); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
+	//for (int i = 0; i < ilosc; i++) Q_sortowanie(tab[i], 0, (int)(0.5*(wielkosc - 1)), 0); // Tworzenie tablic częsciowo posortowanych lub posortowanych odwrotnie
 
 	start = clock(); // włączenie odliczania czasu
 
@@ -375,7 +375,7 @@ int main()
 		I_sortowanie(tab[i],wielkosc); // algorytm sortowania introspektywnego
 
 
-		//czy_posortowane_rosnaco(tab[i], wielkosc-1);
+		czy_posortowane_rosnaco(tab[i], wielkosc-1);
 		//czy_posortowane_malejaco(tab[i], wielkosc);
 
 
